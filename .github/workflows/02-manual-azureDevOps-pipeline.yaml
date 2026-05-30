@@ -1,14 +1,14 @@
 # azure-pipelines.yml
 
 # Não dispara automaticamente em commits
-trigger: none
-pr: none
+trigger: []
+pr: []
 
 # Nome da pipeline
 name: Execução Manual
 
 jobs:
-- job: e2e_tests
+  job: e2e_tests
   displayName: "Execução de testes E2E"
   pool:
     vmImage: 'ubuntu-latest'   # Define o agente que vai rodar (máquina virtual Ubuntu)
