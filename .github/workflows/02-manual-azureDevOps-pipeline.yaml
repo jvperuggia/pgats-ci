@@ -1,0 +1,57 @@
+# azure-pipelines.yml
+
+# Não dispara automaticamente em commits
+trigger: none
+pr: none
+
+# Nome da pipeline
+name: Execução Manual
+
+jobs:
+- job: e2e_tests
+  displayName: "Execução de testes E2E"
+  pool:
+    vmImage: 'ubuntu-latest'   # Define o agente que vai rodar (máquina virtual Ubuntu)
+
+  steps:
+  - task: Checkout@1
+    displayName: "Clonando repositório"
+    # Faz o checkout do código do repositório para o agente
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'
+    displayName: "Instalando Node.js"
+    # Instala a versão especificada do Node.js no agente
+
+  - script: npm install -g yarn
+    displayName: "Instalando Yarn"
+    # Instala o gerenciador de pacotes Yarn globalmente
+
+  - script: yarn install
+    displayName: "Instalando dependências"
+    # Instala todas as dependências do projeto listadas no package.json
+
+  - script: yarn playwright install
+    displayName: "Instalando browsers do Playwright"
+    # Faz o download dos navegadores necessários para os testes E2E
+
+  - script: npx playwright test
+    displayName: "Executando testes E2E"
+    # Executa os testes automatizados com Playwright
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testResultsFormat: 'JUnit'
+      failTaskOnFailedTests: true
+    displayName: "Publicando Relatório de Testes"
+    # Publica os resultados dos testes (JUnit XML) na aba "Tests" do Azure DevOps
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: 'playwright-report'
+      artifactName: 'playwright-html-report'
+      condition: succeededOrFailed()
+    displayName: "Publicando Relatório HTML do Playwright"
+    # Publica o relatório HTML gerado pelo Playwright como artefato da pipeline
