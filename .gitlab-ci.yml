@@ -1,11 +1,6 @@
 # .gitlab-ci.yml
 # CI de nível 01 - Disparo manual através de clique
 
-# Nome da pipeline
-workflow:
-  rules:
-    - when: manual   # dispara apenas manualmente
-
 stages:
   - test
 
@@ -13,15 +8,15 @@ e2e_tests:
   stage: test
   image: node:24   # usa container com Node.js 24
   script:
-    # clone do projeto já é feito automaticamente pelo GitLab
     - npm install -g yarn               # instalação do Yarn
     - yarn install                      # instalação das dependências
     - yarn playwright install           # instalação dos browsers do Playwright
     - yarn run e2e                      # execução dos testes E2E
+  when: manual                          # este job só roda quando você clicar em "Play"
   artifacts:
     when: always
     paths:
       - playwright-report               # salva relatório HTML
       - test-results.xml                # salva relatório JUnit
-  reports:
-    junit: test-results.xml             # integra resultados na aba "Tests"
+    reports:
+      junit: test-results.xml           # integra resultados na aba "Tests"
