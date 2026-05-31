@@ -13,10 +13,10 @@ e2e_tests:
     - yarn playwright install             # instalação dos browsers do Playwright
     - yarn run e2e                        # execução dos testes E2E
   when: manual                            # este job só roda quando você clicar em "Play"
-  artifacts:
-    when: always
-    paths:
-      - playwright-report                 # salva relatório HTML
-      - test-results.xml                  # salva relatório JUnit
-    reports:
-      junit: test-results.xml             # integra resultados na aba "Tests"
+  # artifacts:
+  #   when: always
+    # paths:
+    #   - playwright-report                 # salva relatório HTML
+    #   - test-results.xml                  # salva relatório JUnit
+    # reports:
+    #   junit: test-results.xml             # integra resultados na aba "Tests"
