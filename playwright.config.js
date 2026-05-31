@@ -10,7 +10,20 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-export default defineConfig({
+export default defineConfig(
+  {
+  reporter: [
+    ['list'], // mostra os testes no terminal
+    ['junit', { outputFile: 'test-results.xml' }], // gera relatório JUnit
+    ['html', { outputFolder: 'playwright-report', open: 'never' }] // gera relatório HTML
+  ],
+  use: {
+    headless: true,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure'
+  }
+  },
+  {
   testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
