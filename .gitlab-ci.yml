@@ -1,24 +1,22 @@
+# .gitlab-ci.yml
+# Pipeline manual para execução de testes E2E com Playwright
+
 stages:
   - test
 
 e2e_tests:
   stage: test
-  image: node:20   # define versão do Node
+  image: mcr.microsoft.com/playwright:v1.44.0-jammy   # imagem oficial Playwright
   script:
-    # Instala dependências do Chromium necessárias no container
-    - apt-get update
-    - apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
-      libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 \
-      libpango-1.0-0 libcairo2 libasound2
     # Instala dependências do projeto
     - yarn install
-    # Instala browsers do Playwright
-    - yarn playwright install
+    # Instala browsers do Playwright (já vem na imagem, mas garante atualização)
+    - npx playwright install
     # Executa os testes E2E
     - npx playwright test
-  when: manual     # só roda quando você clicar em "Play"
+  when: manual
   artifacts:
     when: always
     paths:
-      - playwright-report      # relatório HTML
-      - test-results.xml       # relatório JUnit 
+      - playwright-report        # relatório HTML
+      - test-results.xml         # relatório JUnit
