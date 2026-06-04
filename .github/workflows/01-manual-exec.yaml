@@ -5,39 +5,48 @@ name: 'Execução Manual'
 
 #gatilhos ou Triggers - regras de disparo
 #gatilho manual = workflow dispatch
-
 on:
-    workflow_dispatch: 
+  workflow_dispatch: 
 
 #tarefas dentro da pipeline = jobs
 jobs:
-    # nome do job
-    e2e-tests:
-        # maquina onde o job vai rodar
-        runs-on: ubuntu-latest
+  # nome do job
+  e2e-tests:
+    # maquina onde o job vai rodar
+    runs-on: ubuntu-latest
 
-        #passos do job
-        steps:
-          #clone do projeto
-          - uses: actions/checkout@v4
+    #passos do job
+    steps:
+      #clone do projeto
+      - uses: actions/checkout@v4
 
-         #instalação do node
-          - uses: actions/setup-node@v4
-            with:
-              node-version: 24.x 
+      #instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x 
+      
+      # DESAFIO - EXERCÍCIO 2
+      # cache de dependências - Essencial para acelerar o tempo de build armazenando pacotes em cache (como node_modules ou pip).
+      - name: Cache de dependências
+        uses: actions/cache@v4
+        with:
+          path: ~/.yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
-         # instalação do Yarn
-          - name: Instalando Yarn
-            run: npm install -g yarn
+      # instalação do Yarn
+      - name: Instalando Yarn
+        run: npm install -g yarn
 
-         #instalação das dependencias
-          - name: Instalando dependencias
-            run: yarn
+      #instalação das dependencias
+      - name: Instalando dependencias
+        run: yarn
 
-         # instalação dos brownsers do playwright
-          - name: Instalando brownsers do playwright
-            run: yarn playwright install
+      # instalação dos browsers do playwright
+      - name: Instalando browsers do playwright
+        run: yarn playwright install
 
-         # execitar os testes e2e
-          - name: executando testes e2e
-            run: yarn run e2e
+      # executar os testes e2e
+      - name: Executando testes e2e
+        run: yarn run e2e
