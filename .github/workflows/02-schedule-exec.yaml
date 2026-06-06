@@ -1,0 +1,69 @@
+# CI de nível 02 - Disparo Agendado
+
+#nome da pipeline
+name: 'Scheduled Execution'
+
+#gatilhos ou Triggers - regras de disparo
+#gatilho manual = workflow dispatch
+on:
+  schedule: 
+  # Cronograma de execução
+  #1- minuto, 2 - hora, 3 - dia do mes, 4 - mês, 
+    - cron: '0 0 * * 0' 
+    #roda as 00:00, apenas aos domingos
+    
+    #Ex:
+    # - cron: '10 45 * * 5' #roda as 10:45, apenas as sextas
+    # - cron: '*/10 * * 1,3' #roda a cada 10min as segundas e quartas
+
+#tarefas dentro da pipeline = jobs
+jobs:
+  # nome do job
+  e2e-tests:
+    # maquina onde o job vai rodar
+    runs-on: ubuntu-latest
+
+    #passos do job
+    steps:
+      #clone do projeto
+      - uses: actions/checkout@v4
+
+      #instalação do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x 
+      
+      # DESAFIO - EXERCÍCIO 2
+      # cache de dependências - Essencial para acelerar o tempo de build armazenando pacotes em cache (como node_modules ou pip).
+      - name: Cache de dependências
+        uses: actions/cache@v4
+        with:
+          path: ~/.yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      # cache dos browsers Playwright
+      - name: Cache dos browsers Playwright
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-      
+
+      # instalação do Yarn
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      #instalação das dependencias
+      - name: Instalando dependencias
+        run: yarn
+
+      # instalação dos browsers do playwright
+      - name: Instalando browsers do playwright
+        run: yarn playwright install
+
+      # executar os testes e2e
+      - name: Executando testes e2e
+        run: yarn run e2e
