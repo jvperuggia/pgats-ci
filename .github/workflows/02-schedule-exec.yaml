@@ -9,8 +9,8 @@ on:
   schedule: 
   # Cronograma de execução
   #1- minuto, 2 - hora, 3 - dia do mes, 4 - mês, 
-    - cron: '0 0 * * 0' 
-    #roda as 00:00, apenas aos domingos
+    - cron: '*/20 * * * 6' 
+    #roda aos sabados a cada 20 min
     
     #Ex:
     # - cron: '10 45 * * 5' #roda as 10:45, apenas as sextas
