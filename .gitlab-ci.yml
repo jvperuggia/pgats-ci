@@ -3,12 +3,12 @@ stages:
 
 e2e_tests:
   stage: test
-  image: node:20   # define versão do Node
+  image: node:20 # define versão do Node
   script:
     - yarn install
     - yarn playwright install
     - npx playwright test
-  when: manual     # só roda quando você clicar em "Play"
+  when: manual # só roda quando você clicar em "Play"
   artifacts:
     when: always
     paths:

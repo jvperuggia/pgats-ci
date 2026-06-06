@@ -12,71 +12,75 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig(
   {
-  reporter: [
-    ['list'], // mostra os testes no terminal
-    ['junit', { outputFile: 'test-results.xml' }], // gera relatório JUnit
-    ['html', { outputFolder: 'playwright-report', open: 'never' }] // gera relatório HTML
-  ]
-  // use: {
-  //   headless: true,
-  //   screenshot: 'only-on-failure',
-  //   video: 'retain-on-failure'
-  // }
+    reporter: [
+      ['list'], // mostra os testes no terminal
+      ['junit', { outputFile: 'test-results.xml' }], // gera relatório JUnit
+      ['html', { outputFolder: 'playwright-report', open: 'never' }], // gera relatório HTML
+    ],
+    // use: {
+    //   headless: true,
+    //   screenshot: 'only-on-failure',
+    //   video: 'retain-on-failure'
+    // }
   },
   {
-  testDir: './e2e',
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { open: false }], ['junit', { outputFile: `results.xml` }]],
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://pgats-ci-example.netlify.app',
+    testDir: './e2e',
+    /* Run tests in files in parallel */
+    fullyParallel: true,
+    /* Fail the build on CI if you accidentally left test.only in the source code. */
+    forbidOnly: !!process.env.CI,
+    /* Retry on CI only */
+    retries: process.env.CI ? 2 : 0,
+    /* Opt out of parallel tests on CI. */
+    workers: process.env.CI ? 1 : undefined,
+    /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+    reporter: [
+      ['html', { open: false }],
+      ['junit', { outputFile: `results.xml` }],
+    ],
+    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    use: {
+      /* Base URL to use in actions like `await page.goto('/')`. */
+      baseURL: 'https://pgats-ci-example.netlify.app',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure'
-  },
-
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+      trace: 'on-first-retry',
+      screenshot: 'only-on-failure',
     },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+    /* Configure projects for major browsers */
+    projects: [
+      {
+        name: 'chromium',
+        use: { ...devices['Desktop Chrome'] },
+      },
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
+      /* Test against mobile viewports. */
+      // {
+      //   name: 'Mobile Chrome',
+      //   use: { ...devices['Pixel 5'] },
+      // },
+      // {
+      //   name: 'Mobile Safari',
+      //   use: { ...devices['iPhone 12'] },
+      // },
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-});
+      /* Test against branded browsers. */
+      // {
+      //   name: 'Microsoft Edge',
+      //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+      // },
+      // {
+      //   name: 'Google Chrome',
+      //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      // },
+    ],
+
+    /* Run your local dev server before starting the tests */
+    // webServer: {
+    //   command: 'npm run start',
+    //   url: 'http://127.0.0.1:3000',
+    //   reuseExistingServer: !process.env.CI,
+    // },
+  },
+);
