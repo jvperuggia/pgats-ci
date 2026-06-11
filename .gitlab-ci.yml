@@ -6,9 +6,9 @@ stages:
 
 e2e_tests:
   stage: test
-  image: mcr.microsoft.com/playwright:v1.44.0-jammy   # imagem oficial Playwright
+  image: mcr.microsoft.com/playwright:v1.44.0-jammy # imagem oficial Playwright
   script:
-    # Instala dependências do projeto
+    # Instala dependências do projetos
     - yarn install
     # Instala browsers do Playwright (já vem na imagem, mas garante atualização)
     - npx playwright install
@@ -18,5 +18,5 @@ e2e_tests:
   artifacts:
     when: always
     paths:
-      - playwright-report        # relatório HTML
-      - test-results.xml         # relatório JUnit
+      - playwright-report #relatório HTML
+      - test-results.xml # relatório JUnit
