@@ -6,14 +6,15 @@ name: 'Execução Manual'
 #gatilhos ou Triggers - regras de disparo
 #gatilho manual = workflow dispatch
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
 
 #tarefas dentro da pipeline = jobs
 jobs:
   # nome do job
   e2e-tests:
     # maquina onde o job vai rodar
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted # usar o runner próprio
 
     #passos do job
     steps:
@@ -23,8 +24,8 @@ jobs:
       #instalação do node
       - uses: actions/setup-node@v4
         with:
-          node-version: 24.x 
-      
+          node-version: 24.x
+
       # DESAFIO - EXERCÍCIO 2
       # cache de dependências - Essencial para acelerar o tempo de build armazenando pacotes em cache (como node_modules ou pip).
       - name: Cache de dependências
@@ -42,7 +43,7 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-playwright-      
+            ${{ runner.os }}-playwright-
 
       # instalação do Yarn
       - name: Instalando Yarn
