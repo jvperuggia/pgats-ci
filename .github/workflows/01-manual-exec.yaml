@@ -69,4 +69,4 @@ jobs:
         if: ${{ always() }}
         with:
           path: ./playwright-report
-          name: relatório de Testes E2E  
+          name: relatório de Testes E2E
