@@ -10,6 +10,9 @@ name: 'N4 - Execução Integrada'
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
 #tarefas dentro da pipeline = jobs
 
 jobs:
@@ -81,6 +84,13 @@ jobs:
 
       - name: Executando testes E2E
         run: yarn run e2e
+
+      - name: Salvando relatórios de testes
+        uses: actions/upload-artifact@V4
+        if: ${{ always() }}
+        with:
+          path: ./playwright-report
+          name: relatório de Testes E2E
 
   deploy:
     runs-on: ubuntu-latest
