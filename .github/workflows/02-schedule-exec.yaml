@@ -9,7 +9,7 @@ on:
   schedule:
     # Cronograma de execução
     #1- minuto, 2 - hora, 3 - dia do mes, 4 - mês,
-        #roda aos sabados a cada 25 min
+    #roda aos sabados a cada 25 min
     #Ex:
     # - cron: '10 45 * * 5' #roda as 10:45, apenas as sextas
     # - cron: '*/10 * * 1,3' #roda a cada 10 min as segundas e quartas
@@ -75,4 +75,4 @@ jobs:
         if: ${{ always() }}
         with:
           path: ./playwright-report
-          name: relatório de Testes E2E  
+          name: relatório de Testes E2E
