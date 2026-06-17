@@ -7,9 +7,9 @@ name: 'N1 - Execução Manual'
 #gatilho manual = workflow dispatch
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 
 #tarefas dentro da pipeline = jobs
 jobs:
